@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0FA6AB3522B6A583002E5147 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FA6AB3422B6A583002E5147 /* AppDelegate.swift */; };
-		0FA6AB3722B6A583002E5147 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FA6AB3622B6A583002E5147 /* ViewController.swift */; };
+		0FA6AB3722B6A583002E5147 /* MainController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FA6AB3622B6A583002E5147 /* MainController.swift */; };
 		0FA6AB3A22B6A583002E5147 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0FA6AB3822B6A583002E5147 /* Main.storyboard */; };
 		0FA6AB3C22B6A585002E5147 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0FA6AB3B22B6A585002E5147 /* Assets.xcassets */; };
 		0FA6AB3F22B6A585002E5147 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0FA6AB3D22B6A585002E5147 /* LaunchScreen.storyboard */; };
@@ -19,7 +19,7 @@
 /* Begin PBXFileReference section */
 		0FA6AB3122B6A583002E5147 /* Dice Tower.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Dice Tower.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0FA6AB3422B6A583002E5147 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		0FA6AB3622B6A583002E5147 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		0FA6AB3622B6A583002E5147 /* MainController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainController.swift; sourceTree = "<group>"; };
 		0FA6AB3922B6A583002E5147 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		0FA6AB3B22B6A585002E5147 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0FA6AB3E22B6A585002E5147 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -39,6 +39,30 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0F7D262022C12D5200505644 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				0FA6AB3622B6A583002E5147 /* MainController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		0F7D262122C12D5500505644 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		0F7D262222C12D5700505644 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				0FBAC1B222B95E6B008AA5A7 /* Die.swift */,
+				0FBAC1B422B96837008AA5A7 /* Tower.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		0FA6AB2822B6A583002E5147 = {
 			isa = PBXGroup;
 			children = (
@@ -58,14 +82,14 @@
 		0FA6AB3322B6A583002E5147 /* Dice Tower */ = {
 			isa = PBXGroup;
 			children = (
+				0F7D262222C12D5700505644 /* Model */,
+				0F7D262122C12D5500505644 /* View */,
+				0F7D262022C12D5200505644 /* Controller */,
 				0FA6AB3422B6A583002E5147 /* AppDelegate.swift */,
-				0FA6AB3622B6A583002E5147 /* ViewController.swift */,
 				0FA6AB3822B6A583002E5147 /* Main.storyboard */,
 				0FA6AB3B22B6A585002E5147 /* Assets.xcassets */,
 				0FA6AB3D22B6A585002E5147 /* LaunchScreen.storyboard */,
 				0FA6AB4022B6A585002E5147 /* Info.plist */,
-				0FBAC1B222B95E6B008AA5A7 /* Die.swift */,
-				0FBAC1B422B96837008AA5A7 /* Tower.swift */,
 			);
 			path = "Dice Tower";
 			sourceTree = "<group>";
@@ -141,7 +165,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0FA6AB3722B6A583002E5147 /* ViewController.swift in Sources */,
+				0FA6AB3722B6A583002E5147 /* MainController.swift in Sources */,
 				0FA6AB3522B6A583002E5147 /* AppDelegate.swift in Sources */,
 				0FBAC1B322B95E6B008AA5A7 /* Die.swift in Sources */,
 				0FBAC1B522B96837008AA5A7 /* Tower.swift in Sources */,

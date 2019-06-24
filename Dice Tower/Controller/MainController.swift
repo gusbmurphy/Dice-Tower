@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class MainController: UIViewController {
     
     @IBOutlet weak var diceTextView: UITextView!
     @IBOutlet weak var resultDisplayLabel: UILabel!
@@ -85,7 +85,7 @@ class ViewController: UIViewController {
     
 }
 
-extension ViewController: UITextFieldDelegate {
+extension MainController: UITextFieldDelegate {
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         updateProbability()
