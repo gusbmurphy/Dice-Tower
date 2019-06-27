@@ -16,19 +16,21 @@ class DiceCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    let dieImageView: UIImageView = {
+    private let dieImageView: UIImageView = {
         
         let imageView = UIImageView()
-        imageView.backgroundColor = UIColor.red
+        imageView.backgroundColor = UIColor(red: 0.23, green: 0.59, blue: 0.47, alpha: 1.0)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
         
     }()
     
-    let dieLable: UILabel = {
+    private let dieLable: UILabel = {
         
-        let lable = UILabel(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
-        lable.textColor = UIColor.black
+        let lable = UILabel(frame: CGRect.zero)
+        lable.textColor = UIColor.white
+        lable.textAlignment = .center
+        lable.translatesAutoresizingMaskIntoConstraints = false
         return lable
         
     }()
@@ -36,7 +38,6 @@ class DiceCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         
         super.init(frame: frame)
-        backgroundColor = UIColor.blue
         setupViews()
         
     }
@@ -45,12 +46,20 @@ class DiceCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupViews() {
+    private func setupViews() {
+        
         dieImageView.addSubview(dieLable)
         addSubview(dieImageView)
+        
         // Add auto-layout constraints
         addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-10-[v0]-10-|", options: NSLayoutConstraint.FormatOptions(), metrics: nil, views: ["v0": dieImageView]))
         addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-10-[v0]-10-|", options: NSLayoutConstraint.FormatOptions(), metrics: nil, views: ["v0": dieImageView]))
+        
+        dieLable.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        dieLable.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        
+        
+        
     }
     
 }

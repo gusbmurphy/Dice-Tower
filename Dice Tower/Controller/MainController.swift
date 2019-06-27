@@ -17,7 +17,7 @@ class MainController: UIViewController {
     
     private var die: Die?
     private var tower = Tower()
-    private var numberOfDice = 1 // This variable is only to be used to debug the dice collection view!
+    private var numberOfDice = 0 // This variable is only to be used to debug the dice collection view!
     
     override func viewDidLoad() {
         
@@ -25,6 +25,7 @@ class MainController: UIViewController {
         
         resultDisplayLabel.text = ""
         addNumPadDoneButton()
+        diceCollectionView.backgroundColor = UIColor.init(hue: 0, saturation: 0, brightness: 0, alpha: 0)
         diceCollectionView.register(DiceCollectionViewCell.self, forCellWithReuseIdentifier: "DieCell")
         
     }
@@ -43,8 +44,6 @@ class MainController: UIViewController {
         let numOfSides = Int(sender.tag)
         let newDie = Die(numOfSides)
         tower.addDie(newDie)
-        
-        numberOfDice += 1
         
         // Update UI
         diceCollectionView.reloadData()
@@ -100,13 +99,20 @@ extension MainController: UITextFieldDelegate {
 extension MainController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return numberOfDice
+        return tower.amountOfDieTypes
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
+        let diceArray = tower.getDiceArray() // TODO: This is a very inefficient solution. Currently, there is a new dice array made every time this function is called, which is quite frequently in fact!
+        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DieCell", for: indexPath) as! DiceCollectionViewCell
-        cell.dieText = "Hello!"
+        
+        let dieSides = diceArray![indexPath.row].type.sides
+        let dieAmount = diceArray![indexPath.row].number
+        let dieString = "\(dieAmount)d\(dieSides)"
+        cell.dieText = dieString
+        
         return cell
         
     }
