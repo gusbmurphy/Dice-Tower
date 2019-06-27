@@ -10,21 +10,22 @@ import UIKit
 
 class MainController: UIViewController {
     
-    @IBOutlet weak var diceTextView: UITextView!
+    @IBOutlet weak var diceCollectionView: UICollectionView!
     @IBOutlet weak var resultDisplayLabel: UILabel!
     @IBOutlet weak var probabiltyDisplayLabel: UILabel!
     @IBOutlet weak var probabiltyTargetField: UITextField!
     
     private var die: Die?
     private var tower = Tower()
+    private var numberOfDice = 1 // This variable is only to be used to debug the dice collection view!
     
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        resultDisplayLabel.text = ""
-        diceTextView.text = ""
         
+        resultDisplayLabel.text = ""
         addNumPadDoneButton()
+        diceCollectionView.register(DiceCollectionViewCell.self, forCellWithReuseIdentifier: "DieCell")
         
     }
     
@@ -43,8 +44,10 @@ class MainController: UIViewController {
         let newDie = Die(numOfSides)
         tower.addDie(newDie)
         
-        diceTextView.text = tower.diceString()
+        numberOfDice += 1
         
+        // Update UI
+        diceCollectionView.reloadData()
         updateProbability()
         
     }
@@ -60,14 +63,13 @@ class MainController: UIViewController {
     @IBAction func clearButtonPressed(_ sender: UIButton) {
         
         tower.clearDice()
-        diceTextView.text = ""
         resultDisplayLabel.text = ""
         
     }
     
+    // TODO: Figure out what's going on in this function!
     fileprivate func addNumPadDoneButton() {
         
-        // TODO: Figure out what's going on in this code!
         let toolBar: UIToolbar = UIToolbar()
         toolBar.barStyle = UIBarStyle.blackTranslucent
         toolBar.items=[
@@ -89,6 +91,28 @@ extension MainController: UITextFieldDelegate {
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         updateProbability()
+    }
+    
+}
+
+// MARK: Collection View Delegate/Datasource Functions
+
+extension MainController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return numberOfDice
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DieCell", for: indexPath) as! DiceCollectionViewCell
+        cell.dieText = "Hello!"
+        return cell
+        
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 100, height: 100)
     }
     
 }

@@ -7,16 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0FA30E1222C164EA006D26EA /* DieColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FA30E1122C164EA006D26EA /* DieColor.swift */; };
 		0FA6AB3522B6A583002E5147 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FA6AB3422B6A583002E5147 /* AppDelegate.swift */; };
 		0FA6AB3722B6A583002E5147 /* MainController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FA6AB3622B6A583002E5147 /* MainController.swift */; };
 		0FA6AB3A22B6A583002E5147 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0FA6AB3822B6A583002E5147 /* Main.storyboard */; };
 		0FA6AB3C22B6A585002E5147 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0FA6AB3B22B6A585002E5147 /* Assets.xcassets */; };
 		0FA6AB3F22B6A585002E5147 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0FA6AB3D22B6A585002E5147 /* LaunchScreen.storyboard */; };
+		0FA8CB4F22C4FD570001A90A /* DiceCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FA8CB4E22C4FD570001A90A /* DiceCollectionViewCell.swift */; };
 		0FBAC1B322B95E6B008AA5A7 /* Die.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FBAC1B222B95E6B008AA5A7 /* Die.swift */; };
 		0FBAC1B522B96837008AA5A7 /* Tower.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FBAC1B422B96837008AA5A7 /* Tower.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0FA30E1122C164EA006D26EA /* DieColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DieColor.swift; sourceTree = "<group>"; };
 		0FA6AB3122B6A583002E5147 /* Dice Tower.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Dice Tower.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0FA6AB3422B6A583002E5147 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0FA6AB3622B6A583002E5147 /* MainController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainController.swift; sourceTree = "<group>"; };
@@ -24,6 +27,7 @@
 		0FA6AB3B22B6A585002E5147 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0FA6AB3E22B6A585002E5147 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0FA6AB4022B6A585002E5147 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0FA8CB4E22C4FD570001A90A /* DiceCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiceCollectionViewCell.swift; sourceTree = "<group>"; };
 		0FBAC1B222B95E6B008AA5A7 /* Die.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Die.swift; sourceTree = "<group>"; };
 		0FBAC1B422B96837008AA5A7 /* Tower.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tower.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -43,6 +47,7 @@
 			isa = PBXGroup;
 			children = (
 				0FA6AB3622B6A583002E5147 /* MainController.swift */,
+				0FA8CB4E22C4FD570001A90A /* DiceCollectionViewCell.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -59,6 +64,7 @@
 			children = (
 				0FBAC1B222B95E6B008AA5A7 /* Die.swift */,
 				0FBAC1B422B96837008AA5A7 /* Tower.swift */,
+				0FA30E1122C164EA006D26EA /* DieColor.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -168,6 +174,8 @@
 				0FA6AB3722B6A583002E5147 /* MainController.swift in Sources */,
 				0FA6AB3522B6A583002E5147 /* AppDelegate.swift in Sources */,
 				0FBAC1B322B95E6B008AA5A7 /* Die.swift in Sources */,
+				0FA30E1222C164EA006D26EA /* DieColor.swift in Sources */,
+				0FA8CB4F22C4FD570001A90A /* DiceCollectionViewCell.swift in Sources */,
 				0FBAC1B522B96837008AA5A7 /* Tower.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
