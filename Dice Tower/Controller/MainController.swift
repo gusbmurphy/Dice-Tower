@@ -25,8 +25,13 @@ class MainController: UIViewController {
         
         resultDisplayLabel.text = ""
         addNumPadDoneButton()
+        
         diceCollectionView.backgroundColor = UIColor.init(hue: 0, saturation: 0, brightness: 0, alpha: 0)
         diceCollectionView.register(DiceCollectionViewCell.self, forCellWithReuseIdentifier: "DieCell")
+        
+        let collectionLayout = DiceCollectionViewLayout()
+        collectionLayout.estimatedItemSize = CGSize(width: 140, height: 40)
+        diceCollectionView.collectionViewLayout = collectionLayout
         
     }
     
@@ -62,6 +67,7 @@ class MainController: UIViewController {
     @IBAction func clearButtonPressed(_ sender: UIButton) {
         
         tower.clearDice()
+        diceCollectionView.reloadData()
         resultDisplayLabel.text = ""
         
     }

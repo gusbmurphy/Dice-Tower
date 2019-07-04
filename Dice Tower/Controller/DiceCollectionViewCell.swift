@@ -12,7 +12,7 @@ class DiceCollectionViewCell: UICollectionViewCell {
     
     public var dieText: String? {
         didSet {
-            dieLable.text = dieText
+            dieLabel.text = dieText
         }
     }
     
@@ -25,7 +25,7 @@ class DiceCollectionViewCell: UICollectionViewCell {
         
     }()
     
-    private let dieLable: UILabel = {
+    private let dieLabel: UILabel = {
         
         let lable = UILabel(frame: CGRect.zero)
         lable.textColor = UIColor.white
@@ -48,17 +48,15 @@ class DiceCollectionViewCell: UICollectionViewCell {
     
     private func setupViews() {
         
-        dieImageView.addSubview(dieLable)
+        dieImageView.addSubview(dieLabel)
         addSubview(dieImageView)
         
         // Add auto-layout constraints
         addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-10-[v0]-10-|", options: NSLayoutConstraint.FormatOptions(), metrics: nil, views: ["v0": dieImageView]))
         addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-10-[v0]-10-|", options: NSLayoutConstraint.FormatOptions(), metrics: nil, views: ["v0": dieImageView]))
         
-        dieLable.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        dieLable.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        
-        
+        dieLabel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        dieLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         
     }
     
