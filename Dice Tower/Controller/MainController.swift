@@ -51,6 +51,7 @@ class MainController: UIViewController {
         tower.addDie(newDie)
         
         // Update UI
+        diceCollectionView.contentInset.top = max((diceCollectionView.frame.height - diceCollectionView.contentSize.height) / 2, 0) // TODO: This is a bit of copy-pasted code that works to vertically center the dice, figure out what it does!
         diceCollectionView.reloadData()
         updateProbability()
         
@@ -110,14 +111,9 @@ extension MainController: UICollectionViewDelegate, UICollectionViewDataSource, 
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let diceArray = tower.getDiceArray() // TODO: This is a very inefficient solution. Currently, there is a new dice array made every time this function is called, which is quite frequently in fact!
-        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DieCell", for: indexPath) as! DiceCollectionViewCell
-        
-        let dieSides = diceArray![indexPath.row].type.sides
-        let dieAmount = diceArray![indexPath.row].number
-        let dieString = "\(dieAmount)d\(dieSides)"
-        cell.dieText = dieString
+        let dieInfo = tower.getDie(atArrayPosition: indexPath.row)
+        cell.dieText = "\(dieInfo!.amount)\(dieInfo!.type)"
         
         return cell
         

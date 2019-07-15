@@ -44,7 +44,7 @@ class DiceCollectionViewLayout: UICollectionViewFlowLayout {
 //            let viewHeight: CGFloat = collectionView?.frame.height ?? 0
 //            let topPadding: CGFloat = (viewHeight - totalRowHeight) / 2
 //            // Apply the necessary padding to each row.
-//            rows.first?.yOffset = topPadding
+//            rows[0].attributes[0].frame.origin.y = topPadding
 //            // applyVerticalPadding(topPadding)
             
             return rows.flatMap { $0.attributes }
@@ -87,13 +87,13 @@ private class DiceCollectionViewRow {
         
     }
     
-//    // The rowHeight assumes that all of the elements in the row are of the same height (the height of the first element).
-//    var rowHeight: CGFloat {
-//
-//        let height: CGFloat = attributes[0].frame.height
-//        return height
-//
-//    }
+    // The rowHeight assumes that all of the elements in the row are of the same height (the height of the first element).
+    var rowHeight: CGFloat {
+
+        let height: CGFloat = attributes[0].frame.height
+        return height
+
+    }
     
 //    var yOffset: CGFloat? {
 //       didSet {

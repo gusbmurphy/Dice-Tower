@@ -12,8 +12,8 @@ import Foundation
 
 struct Tower {
     
-    // The "dice" are stored in a dictionary where the keys are the types of dice (color and sides), and the value is how many of that type there are.
-    private var dice = [Die: Int]()
+    // The "dice" are stored in an array of tuples, where the type is stored as a Die, and the amount is stored as an Integer.
+    private var dice = [(type: Die, amount: Int)]()
     
     public var amountOfDice: Int {
         
@@ -43,37 +43,52 @@ struct Tower {
     
     public var amountOfDieTypes: Int {
         
-        return dice.keys.count
+        return dice.count
+        
+    }
+    
+    // This function returns the given die type's position in the dice array. If there are no dice of the given type, -1 is returned.
+    private func dieTypePositionInArray(_ targetType: Die) -> Int {
+        
+        if dice.isEmpty { return -1 }
+        
+        var position = 0 // TODO: Is there a better way to track the position? Like the for-while structure or something?
+        for (type, _) in dice {
+            if type == targetType {
+                return position
+            }
+            position += 1
+        }
+        
+        return -1 // If we've exited the for-in loop, that means we've gone through the whole array and haven't found the die type.
         
     }
     
     public mutating func addDie(_ die: Die) {
         
-        // If this type of die has already been added, then we want to increment it by one, otherwise we need to add it in for the first time.
-        let typeExistsInDictionary = dice[die] != nil
-        
-        if typeExistsInDictionary {
-            dice[die] = dice[die]! + 1
+        let position = dieTypePositionInArray(die)
+        if position == -1 {
+            dice.append((type: die, amount: 1))
         } else {
-            dice[die] = 1
+            dice[position].amount += 1
         }
         
     }
     
     // Returns an array of tuples indicating the amounts of different types of dice in the Tower.
-    public func getDiceArray() -> [(number: Int, type: Die)]? {
-        
-        if dice.isEmpty { return nil }
-        
-        var diceArray = [(number: Int, type: Die)]()
-        for (type, amount) in dice {
-            let diceTuple = (number: amount, type: type)
-            diceArray.append(diceTuple)
-        }
-        
-        return diceArray
-        
-    }
+//    public func getDiceArray() -> [(number: Int, type: Die)]? {
+//
+//        if dice.isEmpty { return nil }
+//
+//        var diceArray = [(number: Int, type: Die)]()
+//        for (type, amount) in dice {
+//            let diceTuple = (number: amount, type: type)
+//            diceArray.append(diceTuple)
+//        }
+//
+//        return diceArray
+//
+//    }
     
     // TODO: This function may not need to exist at all, but right now it doesn't pay attention to the color of dice.
     public func diceString() -> String {
@@ -130,10 +145,16 @@ struct Tower {
         
     }
     
+    public func getDie(atArrayPosition position: Int) -> (type: Die, amount: Int)? {
+        
+        return dice[position]
+        
+    }
+    
     public mutating func clearDice() {
         
         if !dice.isEmpty {
-            dice = [Die: Int]()
+            dice.removeAll() // TODO: Does removeAll() acheive the same effect as setting dice to a new empty array?
         }
         
     }
