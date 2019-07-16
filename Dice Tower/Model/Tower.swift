@@ -128,6 +128,10 @@ struct Tower {
     // This function returns the probability as a rounded Integer ready to be used as a percentage.
     public func calculateProbabilty(_ target: Int) -> Int {
         
+        if target == 0 && amountOfSides == 0 {
+            return 100
+        }
+        
         if target > amountOfSides {
             return 0
         }

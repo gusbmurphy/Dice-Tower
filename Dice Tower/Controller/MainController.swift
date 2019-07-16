@@ -13,7 +13,7 @@ class MainController: UIViewController {
     @IBOutlet weak var diceCollectionView: UICollectionView!
     @IBOutlet weak var resultDisplayLabel: UILabel!
     @IBOutlet weak var probabiltyDisplayLabel: UILabel!
-    @IBOutlet weak var probabiltyTargetField: UITextField!
+    @IBOutlet weak var probabilityTargetLabel: UILabel!
     
     private var die: Die?
     private var tower = Tower()
@@ -24,7 +24,7 @@ class MainController: UIViewController {
         super.viewDidLoad()
         
         resultDisplayLabel.text = ""
-        addNumPadDoneButton()
+//        addNumPadDoneButton()
         
         diceCollectionView.backgroundColor = UIColor.init(hue: 0, saturation: 0, brightness: 0, alpha: 0)
         diceCollectionView.register(DiceCollectionViewCell.self, forCellWithReuseIdentifier: "DieCell")
@@ -32,15 +32,6 @@ class MainController: UIViewController {
         let collectionLayout = DiceCollectionViewLayout()
         collectionLayout.estimatedItemSize = CGSize(width: 140, height: 40)
         diceCollectionView.collectionViewLayout = collectionLayout
-        
-    }
-    
-    fileprivate func updateProbability() {
-        
-        if let probabilityTarget = Int(probabiltyTargetField.attributedText!.string) {
-            let probability = tower.calculateProbabilty(probabilityTarget)
-            probabiltyDisplayLabel.text = "\(probability)%"
-        }
         
     }
     
@@ -73,33 +64,67 @@ class MainController: UIViewController {
         
     }
     
-    // TODO: Figure out what's going on in this function!
-    fileprivate func addNumPadDoneButton() {
-        
-        let toolBar: UIToolbar = UIToolbar()
-        toolBar.barStyle = UIBarStyle.blackTranslucent
-        toolBar.items=[
-            UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: self, action: nil),
-            UIBarButtonItem(title: "Done", style: UIBarButtonItem.Style.done, target: self, action: #selector(numPadDonePressed))]
-        toolBar.sizeToFit()
-        
-        probabiltyTargetField.inputAccessoryView = toolBar
+    // MARK: Probability Feature
+    
+    @IBAction func probabilityTargetMinusButton(_ sender: Any) {
+        modifyProbabilityTarget(-1)
+    }
+    
+    @IBAction func probabilityTargetPlusButton(_ sender: Any) {
+        modifyProbabilityTarget(1)
         
     }
     
-    @objc fileprivate func numPadDonePressed() {
-        probabiltyTargetField.resignFirstResponder()
+    fileprivate func modifyProbabilityTarget(_ increment: Int) {
+        
+        if let oldTarget = Int(probabilityTargetLabel.text!) {
+            let newTarget = oldTarget + increment
+            if newTarget < 0 {
+                probabilityTargetLabel.text! = String(0)
+            } else {
+                probabilityTargetLabel.text! = String(newTarget)
+            }
+            updateProbability()
+        }
+        
     }
+    
+    fileprivate func updateProbability() {
+        
+        if let probabilityTarget = Int(probabilityTargetLabel.text!) {
+            let probability = tower.calculateProbabilty(probabilityTarget)
+            probabiltyDisplayLabel.text = "\(probability)%"
+        }
+        
+    }
+    
+//    // TODO: Figure out what's going on in this function!
+//    fileprivate func addNumPadDoneButton() {
+//
+//        let toolBar: UIToolbar = UIToolbar()
+//        toolBar.barStyle = UIBarStyle.blackTranslucent
+//        toolBar.items=[
+//            UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: self, action: nil),
+//            UIBarButtonItem(title: "Done", style: UIBarButtonItem.Style.done, target: self, action: #selector(numPadDonePressed))]
+//        toolBar.sizeToFit()
+//
+//        probabiltyTargetField.inputAccessoryView = toolBar
+//
+//    }
+//
+//    @objc fileprivate func numPadDonePressed() {
+//        probabiltyTargetField.resignFirstResponder()
+//    }
     
 }
 
-extension MainController: UITextFieldDelegate {
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        updateProbability()
-    }
-    
-}
+//extension MainController: UITextFieldDelegate {
+//
+//    func textFieldDidEndEditing(_ textField: UITextField) {
+//        updateProbability()
+//    }
+//
+//}
 
 // MARK: Collection View Delegate/Datasource Functions
 
