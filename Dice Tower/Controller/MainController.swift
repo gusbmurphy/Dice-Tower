@@ -24,7 +24,6 @@ class MainController: UIViewController {
         super.viewDidLoad()
         
         resultDisplayLabel.text = ""
-//        addNumPadDoneButton()
         
         diceCollectionView.backgroundColor = UIColor.init(hue: 0, saturation: 0, brightness: 0, alpha: 0)
         diceCollectionView.register(DiceCollectionViewCell.self, forCellWithReuseIdentifier: "DieCell")
@@ -41,9 +40,24 @@ class MainController: UIViewController {
         let newDie = Die(numOfSides)
         tower.addDie(newDie)
         
-        // Update UI
-        diceCollectionView.contentInset.top = max((diceCollectionView.frame.height - diceCollectionView.contentSize.height) / 2, 0) // TODO: This is a bit of copy-pasted code that works to vertically center the dice, figure out what it does!
-        diceCollectionView.reloadData()
+        // TODO: All of this DispatchQueue code is to ensure that the vertical centering is executed correctly. At the time of adding this I'm not entirely sure what everything does. It solves the problem of the contentInset "padding" being calculated before the die is actually added, but is it fully necessary?
+        DispatchQueue.main.async {
+            [weak self] in
+            guard let self = self else {
+                return
+            }
+            
+            self.diceCollectionView.reloadData()
+            
+            DispatchQueue.main.async {
+                [weak self] in
+                let frameHeight = self?.diceCollectionView.frame.height
+                let contentHeight = self?.diceCollectionView.contentSize.height
+                let topPadding = max((frameHeight! - contentHeight!) / 2, 0)
+                self?.diceCollectionView.contentInset.top = topPadding
+            }
+        }
+        
         updateProbability()
         
     }
@@ -98,33 +112,7 @@ class MainController: UIViewController {
         
     }
     
-//    // TODO: Figure out what's going on in this function!
-//    fileprivate func addNumPadDoneButton() {
-//
-//        let toolBar: UIToolbar = UIToolbar()
-//        toolBar.barStyle = UIBarStyle.blackTranslucent
-//        toolBar.items=[
-//            UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: self, action: nil),
-//            UIBarButtonItem(title: "Done", style: UIBarButtonItem.Style.done, target: self, action: #selector(numPadDonePressed))]
-//        toolBar.sizeToFit()
-//
-//        probabiltyTargetField.inputAccessoryView = toolBar
-//
-//    }
-//
-//    @objc fileprivate func numPadDonePressed() {
-//        probabiltyTargetField.resignFirstResponder()
-//    }
-    
 }
-
-//extension MainController: UITextFieldDelegate {
-//
-//    func textFieldDidEndEditing(_ textField: UITextField) {
-//        updateProbability()
-//    }
-//
-//}
 
 // MARK: Collection View Delegate/Datasource Functions
 

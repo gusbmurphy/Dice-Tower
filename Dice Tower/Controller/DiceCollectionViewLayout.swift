@@ -35,18 +35,6 @@ class DiceCollectionViewLayout: UICollectionViewFlowLayout {
             
             // Center each row horizontally.
             rows.forEach { $0.centerRowHorizontally(collectionViewWidth: collectionView?.frame.width ?? 0) }
-            
-//            // Center the rows vertically.
-//            // Calculate the total row height.
-//            var totalRowHeight: CGFloat = 0
-//            for row in rows { totalRowHeight += row.rowHeight }
-//            // Calculate the necessary padding on the top.
-//            let viewHeight: CGFloat = collectionView?.frame.height ?? 0
-//            let topPadding: CGFloat = (viewHeight - totalRowHeight) / 2
-//            // Apply the necessary padding to each row.
-//            rows[0].attributes[0].frame.origin.y = topPadding
-//            // applyVerticalPadding(topPadding)
-            
             return rows.flatMap { $0.attributes }
             
         }
@@ -54,16 +42,6 @@ class DiceCollectionViewLayout: UICollectionViewFlowLayout {
         return attributes
         
     }
-    
-//    func applyVerticalPadding(_ padding: CGFloat) {
-//
-//        var paddingToAdd = padding
-//        for row in rows {
-//            row.yOffset = paddingToAdd
-//            paddingToAdd += row.rowHeight
-//        }
-//
-//    }
     
 }
 
@@ -94,16 +72,6 @@ private class DiceCollectionViewRow {
         return height
 
     }
-    
-//    var yOffset: CGFloat? {
-//       didSet {
-//            if yOffset != nil {
-//                for attribute in attributes {
-//                    attribute.frame.origin.y = yOffset!
-//                }
-//            }
-//        }
-//    }
     
     func add(attribute: UICollectionViewLayoutAttributes) {
         attributes.append(attribute)
