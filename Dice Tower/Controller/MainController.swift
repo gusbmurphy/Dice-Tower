@@ -19,6 +19,8 @@ class MainController: UIViewController {
     private var tower = Tower()
     private var numberOfDice = 0 // This variable is only to be used to debug the dice collection view!
     
+    let uiDispatchGroup = DispatchGroup()
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -42,8 +44,14 @@ class MainController: UIViewController {
         tower.addDie(newDie)
         
         // Update UI
-        diceCollectionView.contentInset.top = max((diceCollectionView.frame.height - diceCollectionView.contentSize.height) / 2, 0) // TODO: This is a bit of copy-pasted code that works to vertically center the dice, figure out what it does!
+        uiDispatchGroup.enter()
         diceCollectionView.reloadData()
+        uiDispatchGroup.leave()
+        
+        uiDispatchGroup.notify(queue: DispatchQueue.main) {
+            self.diceCollectionView.contentInset.top = max((self.diceCollectionView.frame.height - self.diceCollectionView.contentSize.height) / 2, 0)
+        }
+        
         updateProbability()
         
     }
