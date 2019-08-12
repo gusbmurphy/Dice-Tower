@@ -28,6 +28,18 @@ class MainController: UIViewController {
         diceCollectionView.backgroundColor = UIColor.init(hue: 0, saturation: 0, brightness: 0, alpha: 0)
         diceCollectionView.register(DiceCollectionViewCell.self, forCellWithReuseIdentifier: "DieCell")
         
+        configureCellLayout()
+        
+    }
+    
+    fileprivate func configureCellLayout() {
+        
+        let layout = diceCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
+        
+        let numberOfColumns = 3
+        let cellHeight = (diceCollectionView.frame.size.height - layout.minimumInteritemSpacing * CGFloat(numberOfColumns - 1)) / CGFloat(numberOfColumns)
+        layout.itemSize = CGSize(width: cellHeight, height: cellHeight)
+        
     }
     
     fileprivate func updateProbability() {
@@ -114,7 +126,7 @@ extension MainController: UITextFieldDelegate {
 
 // MARK: Collection View Delegate/Datasource Functions
 
-extension MainController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension MainController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return tower.amountOfDieTypes
@@ -128,10 +140,6 @@ extension MainController: UICollectionViewDelegate, UICollectionViewDataSource, 
         
         return cell
         
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 100, height: 100)
     }
     
 }
