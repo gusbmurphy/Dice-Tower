@@ -45,15 +45,26 @@ struct Tower {
         return dice.count
     }
     
-    public mutating func addDie(_ die: Die) {
+    public var hasDice: Bool {
+        if dice.isEmpty {
+            return false
+        } else {
+            return true
+        }
+    }
+    
+    // This function adds a die, and returns the index where it has been added, and a Bool to tell if a new die has been created or one that already existed has had it's amount incremented.
+    public mutating func addDie(_ die: Die) -> (index: Int, isNewDie: Bool) {
         
         // If this type of die has already been added, then we want to increment it by one, otherwise we need to add it in for the first time.
         let indexOfExistingDie = dice.firstIndex(of: die)
         
         if indexOfExistingDie == nil {
             dice.append(die)
+            return (index: dice.count - 1, isNewDie: true)
         } else {
             dice[indexOfExistingDie!].amount += die.amount
+            return (index: indexOfExistingDie!, isNewDie: false)
         }
         
     }

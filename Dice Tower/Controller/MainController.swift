@@ -43,10 +43,16 @@ class MainController: UIViewController {
         
         let numOfSides = Int(sender.tag)
         let newDie = Die(numOfSides)
-        tower.addDie(newDie)
+        let addedDie = tower.addDie(newDie)
         
-        // Update UI
-        diceCollectionView.reloadData()
+        // Update the Collection View: if we have created a new die type, we will use insertItems() at the end.
+        let indexPath = IndexPath(row: addedDie.index, section: 0)
+        if addedDie.isNewDie {
+            diceCollectionView.insertItems(at: [indexPath])
+        } else {
+            diceCollectionView.reloadItems(at: [indexPath])
+        }
+        
         updateProbability()
         
     }
@@ -61,8 +67,20 @@ class MainController: UIViewController {
     
     @IBAction func clearButtonPressed(_ sender: UIButton) {
         
-        tower.clearDice()
-        resultDisplayLabel.text = ""
+        if tower.hasDice {
+            
+            tower.clearDice()
+            
+            diceCollectionView.performBatchUpdates({
+                for i in 0 ..< diceCollectionView.numberOfItems(inSection: 0) {
+                    diceCollectionView.deleteItems(at: [IndexPath(row: i, section: 0)])
+                }
+            }, completion: nil)
+            
+            resultDisplayLabel.text = ""
+            probabiltyDisplayLabel.text = ""
+            
+        }
         
     }
     

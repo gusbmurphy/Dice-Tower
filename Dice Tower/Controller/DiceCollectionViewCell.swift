@@ -12,7 +12,9 @@ class DiceCollectionViewCell: UICollectionViewCell {
     
     public var die: Die? {
         didSet {
-            dieLable.text = die!.description
+            if die != nil {
+                dieLable.text = die!.description
+            }
         }
     }
     
@@ -58,8 +60,10 @@ class DiceCollectionViewCell: UICollectionViewCell {
         dieLable.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         dieLable.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         
-        
-        
+    }
+    
+    override func prepareForReuse() {
+        die = nil
     }
     
 }
