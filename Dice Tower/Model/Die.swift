@@ -10,19 +10,28 @@ import Foundation
 
 struct Die: Hashable, CustomStringConvertible {
     
+    public var amount: Int
     public let sides: Int
     public let color: DieColor
     
+    public var description: String {
+        return "\(amount)d\(sides)"
+    }
+    
     init(_ sides: Int) {
+        self.amount = 1
         self.sides = sides
         self.color = .none
     }
     
-    public var description: String {
-        return "d\(sides)"
+    init(_ sides: Int, color: DieColor) {
+        self.amount = 1
+        self.sides = sides
+        self.color = color
     }
     
-    init(sides: Int, color: DieColor) {
+    init(amount: Int, sides: Int, color: DieColor) {
+        self.amount = amount
         self.sides = sides
         self.color = color
     }

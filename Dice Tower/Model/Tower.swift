@@ -12,16 +12,15 @@ import Foundation
 
 struct Tower {
     
-    // The "dice" are stored in a dictionary where the keys are the types of dice (color and sides), and the value is how many of that type there are.
-    private var dice = [Die: Int]()
+    private var dice = [Die]()
     
     public var amountOfDice: Int {
         
         if dice.isEmpty { return 0 }
         
         var totalAmount = 0
-        for (_, amount) in dice {
-            totalAmount += amount
+        for die in dice {
+            totalAmount += die.amount
         }
         
         return totalAmount
@@ -33,49 +32,37 @@ struct Tower {
         if dice.isEmpty { return 0 }
         
         var totalAmount = 0
-        for (type, amount) in dice {
-            totalAmount += type.sides * amount
+        for die in dice {
+            totalAmount += die.sides * die.amount
         }
         
         return totalAmount
         
     }
     
+    // Dice are considered the same type if they have the same amount of sides, but not if they are different colors.
     public var amountOfDieTypes: Int {
-        
-        return dice.keys.count
-        
+        return dice.count
     }
     
     public mutating func addDie(_ die: Die) {
         
         // If this type of die has already been added, then we want to increment it by one, otherwise we need to add it in for the first time.
-        let typeExistsInDictionary = dice[die] != nil
+        let indexOfExistingDie = dice.firstIndex(of: die)
         
-        if typeExistsInDictionary {
-            dice[die] = dice[die]! + 1
+        if indexOfExistingDie == nil {
+            dice.append(die)
         } else {
-            dice[die] = 1
+            dice[indexOfExistingDie!].amount += die.amount
         }
         
     }
     
-    // Returns an array of tuples indicating the amounts of different types of dice in the Tower.
-    public func getDiceArray() -> [(number: Int, type: Die)]? {
-        
-        if dice.isEmpty { return nil }
-        
-        var diceArray = [(number: Int, type: Die)]()
-        for (type, amount) in dice {
-            let diceTuple = (number: amount, type: type)
-            diceArray.append(diceTuple)
-        }
-        
-        return diceArray
-        
+    public func getDie(for indexPath: IndexPath) -> Die? {
+        return dice[indexPath.row]
     }
     
-    // TODO: This function may not need to exist at all, but right now it doesn't pay attention to the color of dice.
+    // TODO: This function may not need to exist at all (it was created before there was a collection view), but right now it doesn't pay attention to the color of dice.
     public func diceString() -> String {
         
         var diceString = ""
@@ -86,13 +73,13 @@ struct Tower {
             diceString = "\(amountOfDice)d\(amountOfSides)"
         } else {
         
-            for (die, number) in dice {
+            for die in dice {
                 // If there are already dice represented in the String, we need to add a seperation.
                 if diceString != "" {
                     diceString += " + "
                 }
                 
-                diceString += "(\(number)d\(die.sides))"
+                diceString += "(\(die.amount)d\(die.sides))"
             }
             
         }
@@ -133,7 +120,7 @@ struct Tower {
     public mutating func clearDice() {
         
         if !dice.isEmpty {
-            dice = [Die: Int]()
+            dice = [Die]()
         }
         
     }

@@ -104,14 +104,9 @@ extension MainController: UICollectionViewDelegate, UICollectionViewDataSource, 
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let diceArray = tower.getDiceArray() // TODO: This is a very inefficient solution. Currently, there is a new dice array made every time this function is called, which is quite frequently in fact!
-        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DieCell", for: indexPath) as! DiceCollectionViewCell
         
-        let dieSides = diceArray![indexPath.row].type.sides
-        let dieAmount = diceArray![indexPath.row].number
-        let dieString = "\(dieAmount)d\(dieSides)"
-        cell.dieText = dieString
+        cell.die = tower.getDie(for: indexPath)
         
         return cell
         

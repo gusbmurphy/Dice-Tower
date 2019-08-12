@@ -10,9 +10,9 @@ import UIKit
 
 class DiceCollectionViewCell: UICollectionViewCell {
     
-    public var dieText: String? {
+    public var die: Die? {
         didSet {
-            dieLable.text = dieText
+            dieLable.text = die!.description
         }
     }
     
