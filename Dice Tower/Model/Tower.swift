@@ -103,6 +103,7 @@ struct Tower {
         
         if dice.isEmpty { return nil }
         
+        // TODO: This is completely wrong! I think! There are combinations that are more likely to happen when multiple dice are involved.
         let result = Int.random(in: amountOfDice...amountOfSides)
         return result
         

@@ -12,8 +12,6 @@ class MainController: UIViewController {
     
     @IBOutlet weak var diceCollectionView: UICollectionView!
     @IBOutlet weak var resultDisplayLabel: UILabel!
-    @IBOutlet weak var probabiltyDisplayLabel: UILabel!
-    @IBOutlet weak var probabiltyTargetField: UITextField!
     
     private var die: Die?
     private var tower = Tower()
@@ -24,7 +22,6 @@ class MainController: UIViewController {
         super.viewDidLoad()
         
         resultDisplayLabel.text = ""
-        addNumPadDoneButton()
         diceCollectionView.backgroundColor = UIColor.init(hue: 0, saturation: 0, brightness: 0, alpha: 0)
         diceCollectionView.register(DiceCollectionViewCell.self, forCellWithReuseIdentifier: "DieCell")
         
@@ -35,19 +32,11 @@ class MainController: UIViewController {
     fileprivate func configureCellLayout() {
         
         let layout = diceCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
+        layout.minimumLineSpacing = CGFloat(10)
         
         let numberOfColumns = 3
         let cellHeight = (diceCollectionView.frame.size.height - layout.minimumInteritemSpacing * CGFloat(numberOfColumns - 1)) / CGFloat(numberOfColumns)
         layout.itemSize = CGSize(width: cellHeight, height: cellHeight)
-        
-    }
-    
-    fileprivate func updateProbability() {
-        
-        if let probabilityTarget = Int(probabiltyTargetField.attributedText!.string) {
-            let probability = tower.calculateProbabilty(probabilityTarget)
-            probabiltyDisplayLabel.text = "\(probability)%"
-        }
         
     }
     
@@ -96,22 +85,38 @@ class MainController: UIViewController {
         
     }
     
-    // TODO: Figure out what's going on in this function!
-    fileprivate func addNumPadDoneButton() {
-        
-        let toolBar: UIToolbar = UIToolbar()
-        toolBar.barStyle = UIBarStyle.blackTranslucent
-        toolBar.items=[
-            UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: self, action: nil),
-            UIBarButtonItem(title: "Done", style: UIBarButtonItem.Style.done, target: self, action: #selector(numPadDonePressed))]
-        toolBar.sizeToFit()
-        
-        probabiltyTargetField.inputAccessoryView = toolBar
-        
+    // MARK - Probability Members
+    
+    @IBOutlet weak var equalToButton: UIButton!
+    @IBOutlet weak var lessThanButton: UIButton!
+    @IBOutlet weak var greaterThanButton: UIButton!
+    
+    private let greenOff: UIColor = UIColor(red:0.16, green:0.37, blue:0.32, alpha:1.0)
+    private let greenOn: UIColor = UIColor(red:0.27, green:0.65, blue:0.55, alpha:1.0)
+    
+    private var equalToIsOn: Bool = true {
+        didSet {
+            equalToButton.backgroundColor = equalToIsOn ? greenOn : greenOff
+        }
+    }
+    private var lessThanIsOn: Bool = false {
+        didSet {
+            lessThanButton.backgroundColor = lessThanIsOn ? greenOn : greenOff
+        }
+    }
+    private var greaterThanIsOn: Bool = true {
+        didSet {
+            greaterThanButton.backgroundColor = greaterThanIsOn ? greenOn : greenOff
+        }
     }
     
-    @objc fileprivate func numPadDonePressed() {
-        probabiltyTargetField.resignFirstResponder()
+    @IBOutlet weak var comparisionTargetLabel: UILabel!
+    @IBOutlet weak var probabiltyDisplayLabel: UILabel!
+    
+    private var comparisionTarget: Int = 1 {
+        didSet {
+            comparisionTargetLabel.text = String(comparisionTarget)
+        }
     }
     
 }
@@ -139,6 +144,85 @@ extension MainController: UICollectionViewDelegate, UICollectionViewDataSource {
         cell.die = tower.getDie(for: indexPath)
         
         return cell
+        
+    }
+    
+}
+
+// MARK: Probability Button Functions
+
+extension MainController {
+    
+    @IBAction func equalToButtonPressed(_ sender: Any) {
+        equalToIsOn = !equalToIsOn
+    }
+    
+    @IBAction func lessThanButtonPressed(_ sender: Any) {
+        lessThanIsOn = !lessThanIsOn
+        // This if statement (and the mirror one in greaterThanButtonPressed) ensures that we never have both greater than and less than on at the same time.
+        if greaterThanIsOn {
+            greaterThanIsOn = false
+        }
+    }
+    
+    @IBAction func greaterThanButtonPressed(_ sender: Any) {
+        greaterThanIsOn = !greaterThanIsOn
+        if lessThanIsOn {
+            lessThanIsOn = false
+        }
+    }
+    
+    @IBAction func comparisionTargetDecrementButtonPressed(_ sender: Any) {
+        comparisionTarget -= 1
+        updateProbability()
+    }
+    
+    @IBAction func comparisionTargetIncrementButtonPressed(_ sender: Any) {
+        comparisionTarget += 1
+        updateProbability()
+    }
+    
+    fileprivate func updateProbability() {
+        
+        let probability = calculateProbability()
+        probabiltyDisplayLabel.text = "\(probability)%"
+        
+    }
+    
+    fileprivate func calculateProbability() -> Int {
+        
+        return 100
+        
+        // TODO: Figure out the correct math for these difference calculations!
+        
+        var favorableOutcomes: Int?
+        let possibleOutcomes = tower.amountOfSides - tower.amountOfDice
+        
+        if equalToIsOn {
+            if !lessThanIsOn && !greaterThanIsOn {
+                // Strictly equals.
+                
+            } else if lessThanIsOn {
+                // Less than or equal to.
+            } else {
+                // Greater than or equal to.
+            }
+        } else {
+            if lessThanIsOn {
+                // Strictly less than.
+            } else {
+                // Strictly greater than.
+            }
+        }
+        
+//        let probability = Double(favorableOutcomes!) / Double(possibleOutcomes)
+//
+//        if probability > 1 {
+//            return 100
+//        }
+//
+//        let probabiltyAsRoundedPercentage = Int(round(100.0 * probability))
+//        return probabiltyAsRoundedPercentage
         
     }
     
