@@ -17,6 +17,8 @@ class MainController: UIViewController {
     private var tower = Tower()
     private var numberOfDice = 0 // This variable is only to be used to debug the dice collection view!
     
+    private let maxAmountOfColumns = 3
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -34,8 +36,7 @@ class MainController: UIViewController {
         let layout = diceCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
         layout.minimumLineSpacing = CGFloat(10)
         
-        let numberOfColumns = 3
-        let cellHeight = (diceCollectionView.frame.size.height - layout.minimumInteritemSpacing * CGFloat(numberOfColumns - 1)) / CGFloat(numberOfColumns)
+        let cellHeight = (diceCollectionView.frame.size.height - layout.minimumLineSpacing * CGFloat(maxAmountOfColumns - 1)) / CGFloat(maxAmountOfColumns)
         layout.itemSize = CGSize(width: cellHeight, height: cellHeight)
         
     }
@@ -49,7 +50,16 @@ class MainController: UIViewController {
         // Update the Collection View: if we have created a new die type, we will use insertItems() at the end.
         let indexPath = IndexPath(row: addedDie.index, section: 0)
         if addedDie.isNewDie {
-            diceCollectionView.insertItems(at: [indexPath])
+            
+            diceCollectionView.performBatchUpdates({
+                diceCollectionView.insertItems(at: [indexPath])
+            }) { (completed) -> Void in
+                // Vertically align cells.
+                
+                
+                // Horizontally align cells.
+            }
+            
         } else {
             diceCollectionView.reloadItems(at: [indexPath])
         }
@@ -144,6 +154,38 @@ extension MainController: UICollectionViewDelegate, UICollectionViewDataSource {
         cell.die = tower.getDie(for: indexPath)
         
         return cell
+        
+    }
+    
+}
+
+// MARK: Collection View Delegate Flow Layout
+
+extension MainController: UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        
+        let layout = diceCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
+        let cellSize = layout.itemSize
+        
+        let totalNumberOfCells = collectionView.numberOfItems(inSection: 0)
+        let amountOfColumns = totalNumberOfCells < maxAmountOfColumns ? totalNumberOfCells : maxAmountOfColumns
+        
+        let totalContentWidth = cellSize.width * CGFloat(amountOfColumns)
+        let totalSpacingWidth = layout.minimumInteritemSpacing * CGFloat(amountOfColumns - 1)
+        
+        let leftInset = max((collectionView.layer.frame.size.width - CGFloat(totalContentWidth + totalSpacingWidth)) / 2, layout.minimumInteritemSpacing)
+        let rightInset = leftInset
+        
+        
+        let numberOfRows = (Float(totalNumberOfCells) / 3.0).rounded(.up)
+        let totalCellHeight = CGFloat(numberOfRows) * cellSize.height
+        let totalRowSpacingHeight = numberOfRows > 0 ? layout.minimumLineSpacing * CGFloat(numberOfRows - 1) : 0
+        
+        let topInset = max((collectionView.layer.frame.height - (totalCellHeight + totalRowSpacingHeight)) / 2, 0)
+        let bottomInset = topInset
+        
+        return UIEdgeInsets(top: topInset, left: leftInset, bottom: bottomInset, right: rightInset)
         
     }
     
